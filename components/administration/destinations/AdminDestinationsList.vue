@@ -50,7 +50,7 @@
                   text
                   @click="
                     navigateTo(
-                      `/administration/destinations/${slotProps.data.id}`
+                      `/administration/destinations/${slotProps?.data?.id}`
                     )
                   "
                   data-testid="edit-btn"
@@ -72,9 +72,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import DeleteButton from "@/components/commons/DeleteButton.vue";
+import DeleteButton from '@/components/commons/DeleteButton.vue';
+import { useDestinationsStore } from "~/stores/destinations";
 import { useNotificationStore } from "@/stores/notification";
-import { useDestinationsStore } from "@/stores/destinations";
 
  defineProps({
   title: {

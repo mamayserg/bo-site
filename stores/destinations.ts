@@ -14,7 +14,7 @@ export const useDestinationsStore = defineStore('destinations', {
   }),
 
   actions: {
-    setDestinations(destinations: Destination[]) {
+    setDestinations(destinations: Array<Destination>) {
       this.destinations = destinations
     },
 
@@ -27,6 +27,7 @@ export const useDestinationsStore = defineStore('destinations', {
     },
 
     async loadDestinations() {
+        this.setDestinations(mockDestinations) //TODO remove it 
       const { data, error } = await useFetch<Destination[]>('/destinations.json')
       if (error.value) {
         console.error('Failed to load destinations:', error.value)
@@ -38,7 +39,6 @@ export const useDestinationsStore = defineStore('destinations', {
     },
 
     async loadDestination(id: number) { 
-       this.setCurrentDestination(mockDestinations) //TODO remove it 
       const { data, error } = await useFetch<Destination>(`/destinations/${id}.json`)
       if (error.value) {
         console.error(`Failed to load destination with id ${id}:`, error.value)
