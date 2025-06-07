@@ -1,0 +1,22 @@
+/* Import core Tailwind CSS framework 
+ * This provides the base utility classes and components
+ */
+@import "tailwindcss";
+
+/* Import PrimeUI Tailwind integration
+ * Adds Prime UI specific utilities and components
+ * Includes animation utilities from PrimeFlex
+ * Handles theming integration between Prime UI and Tailwind
+ */
+@import "tailwindcss-primeui";
+
+/* Import custom PrimeVue Tailwind theme
+ * Local theme customizations for PrimeVue components
+ * Override default theme variables and styles
+ */
+@import "./primevue/tailwind.css";
+
+/* Define a custom variant for dark mode
+ * Applies styles when .dark or any of its descendants are present
+ */
+@custom-variant dark (&:where(.dark, .dark *));

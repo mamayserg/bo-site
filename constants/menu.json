@@ -1,0 +1,64 @@
+[
+  {
+    "icon": "pi pi-cog", 
+    "title": "Administration",
+    "roles": ["USER_MANAGER"],
+    "items": [
+      {
+        "title": "Users",
+        "roles": ["USER_MANAGER"],
+        "icon": "pi pi-users",
+        "to": "/administration/users"
+      },
+      {
+        "title": "Customers",
+        "roles": ["SUPER_ADMIN"],
+        "icon": "pi pi-users",
+        "to": "/administration/customers"
+      },
+      {
+        "title": "Types",
+        "roles": ["SUPER_ADMIN"],
+        "icon": "pi pi-list",
+        "to": "/administration/types"
+      },
+      {
+        "title": "Input types",
+        "roles": ["SUPER_ADMIN"],
+        "icon": "pi pi-list",
+        "to": "/administration/inputTypes"
+      },
+      {
+        "title": "Template types",
+        "roles": ["SUPER_ADMIN"],
+        "icon": "pi pi-list",
+        "to": "/administration/templateTypes"
+      },
+      {
+        "title": "Destinations",
+        "roles": ["SUPER_ADMIN"],
+        "icon": "pi pi-list",
+        "to": "/administration/destinations"
+      }
+    ]
+  },
+  {
+    "icon": "pi pi-database",
+    "title": "Data",
+    "roles": ["DATA_ADVANCED", "DATA_BEGINNER"],
+    "items": [
+      {
+        "title": "Segments Groups",
+        "roles": ["DATA_ADVANCED"],
+        "icon": "pi pi-sitemap",
+        "to": "/data/segmentsGroups"
+      },
+      {
+        "title": "Segments",
+        "roles": ["DATA_BEGINNER"],
+        "icon": "pi pi-sliders-h",
+        "to": "/data/segments"
+      }
+    ]
+  }
+]

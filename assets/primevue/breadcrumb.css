@@ -1,0 +1,50 @@
+.p-breadcrumb {
+    /* Utilisation des tokens de design pour la couleur de fond tout en gardant les classes de base */
+    @apply bg-[var(--breadcrumb-background)] dark:bg-[var(--breadcrumb-background-dark)] overflow-x-auto;
+}
+
+.p-breadcrumb-list {
+    @apply m-0 p-0 list-none flex items-center flex-nowrap gap-2;
+}
+
+.p-breadcrumb-separator {
+    @apply flex items-center text-[var(--breadcrumb-separator-color)] dark:text-[var(--breadcrumb-separator-color-dark)] w-[12px] h-[12px] ;
+}
+
+.p-breadcrumb-separator-icon:dir(rtl) {
+    @apply rotate-180;
+}
+
+.p-breadcrumb::-webkit-scrollbar {
+    @apply hidden;
+}
+
+.p-breadcrumb-item-link {
+    /* Ajout des tokens de couleur pour le texte et l'icône, tout en gardant les autres classes */
+    @apply no-underline flex items-center gap-2 transition-colors duration-200 rounded-md text-[var(--breadcrumb-item-color)] dark:text-[var(--breadcrumb-item-color-dark)];
+    focus-visible: outline;
+    focus-visible: outline-1;
+    focus-visible: outline-offset-2;
+    focus-visible: outline-primary;
+}
+
+.p-breadcrumb-item-link:hover .p-breadcrumb-item-label {
+    @apply text-[var(--breadcrumb-item-hover-color)] dark:text-[var(--breadcrumb-item-hover-color-dark)];
+}
+
+.p-breadcrumb-item-label {
+    @apply transition-colors duration-200;
+}
+
+.p-breadcrumb-item:last-child .p-breadcrumb-item-label {
+    @apply text-[var(--breadcrumb-last-item-color)];
+}
+
+.p-breadcrumb-item-icon {
+    @apply text-[var(--breadcrumb-icon-color)] dark:text-[var(--breadcrumb-icon-color-dark)] transition-colors duration-200;
+}
+
+.p-breadcrumb-item-link:hover .p-breadcrumb-item-icon {
+    @apply text-[var(--breadcrumb-item-hover-color)] dark:text-[var(--breadcrumb-item-hover-color-dark)];
+}
+
