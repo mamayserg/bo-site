@@ -1,17 +1,17 @@
-import { defineStore } from 'pinia';
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import { defineStore } from "pinia";
+import { mockUsers, mockCustomers, mockUser } from '~/mocks/users';
 
 interface Customer {
   id: number;
   name: string;
 }
+interface User {
+  id: number
+  name: string
+  email: string
+}
 
-export const useUserStore = defineStore('user', {
+export const useUsersStore = defineStore("user", {
   state: () => ({
     users: [] as User[],
     customers: [] as Customer[],
@@ -20,77 +20,97 @@ export const useUserStore = defineStore('user', {
   }),
 
   actions: {
-    async loadUsers() {
-      const { data, error } = await useFetch<User[]>('/users.json');
-      if (error.value) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to load users:', error.value);
-
-        return;
-      }
-      if (data.value) {
-        this.users = data.value;
-      }
+    setUsers(users: User[]) {
+      this.users = users;
     },
 
-    async loadCustomers() {
-      const { data, error } = await useFetch<Customer[]>('/customers.json');
-      if (error.value) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to load customers:', error.value);
-
-        return;
-      }
-      if (data.value) {
-        this.customers = data.value;
-      }
+    setCustomers(customers: Customer[]) {
+      this.customers = customers;
     },
 
-    async loadUser(id: number) {
-      const { data, error } = await useFetch<User>(`/users/${id}.json`);
-      if (error.value) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to load user:', error.value);
-
-        return;
-      }
-      if (data.value) {
-        this.currentUser = data.value;
-      }
+    setCurrentUser(user: User) {
+      this.currentUser = user;
     },
 
     resetUser() {
       this.currentUser = {} as User;
     },
 
-    async loadOwnersList(filters: Record<string, any> = {}) {
-      const { data, error } = await useFetch<User[]>('/users.json', {
-        params: filters,
-      });
-      if (error.value) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to load owners list:', error.value);
+    getOwnersList(owners: User[]) {
+      this.owners = owners;
+    },
 
-        return;
+    updateUserInState(user: User) {
+      this.currentUser = user;
+    },
+
+    async loadUsers() {
+      this.setUsers(mockUsers);
+      try {
+        const { data, error } = await useFetch<User[]>("/users.json");
+        if (error.value) throw error.value;
+        if (data.value) this.setUsers(data.value);
+      } catch (err) {
+        console.error("Failed to load users:", err);
       }
-      if (data.value) {
-        this.owners = data.value;
+    },
+
+    async loadCustomers() {
+      this.setCustomers(mockCustomers);
+      try {
+        const { data, error } = await useFetch<Customer[]>("/customers.json");
+        if (error.value) throw error.value;
+        if (data.value) this.setCustomers(data.value);
+      } catch (err) {
+        console.error("Failed to load customers:", err);
+      }
+    },
+
+    async loadUser(id: number | string) {
+      this.setCurrentUser(mockUser)
+      try {
+        const { data, error } = await useFetch<User>(`/users/${id}.json`);
+        if (error.value) throw error.value;
+        if (data.value) this.setCurrentUser(data.value);
+      } catch (err) {
+        console.error(`Failed to load user with ID ${id}:`, err);
+      }
+    },
+
+    async updateUser(user: User) {
+      try {
+        await useFetch(`/users/${user.id}`, {
+          method: "PUT",
+          body: user,
+        });
+        // Note: This does not update state; call loadUser if needed
+      } catch (err) {
+        console.error("Failed to update user:", err);
       }
     },
 
     async putUser(user: User) {
-      const { data, error } = await useFetch<User>(`/users/${user.id}`, {
-        method: 'PUT',
-        body: user,
-      });
-      if (error.value) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to update user:', error.value);
-
-        return;
+      try {
+        const { data, error } = await useFetch<User>(`/users/${user.id}`, {
+          method: "PUT",
+          body: user,
+        });
+        if (error.value) throw error.value;
+        if (data.value) this.updateUserInState(data.value);
+      } catch (err) {
+        console.error("Failed to put user:", err);
       }
-      if (data.value) {
-        this.currentUser = data.value;
+    },
+
+    async loadOwnersList(filters: Record<string, any> = {}) {
+      try {
+        const { data, error } = await useFetch<User[]>("/users.json", {
+          params: filters,
+        });
+        if (error.value) throw error.value;
+        if (data.value) this.getOwnersList(data.value);
+      } catch (err) {
+        console.error("Failed to load owners list:", err);
       }
     },
   },

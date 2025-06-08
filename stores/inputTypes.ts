@@ -1,16 +1,15 @@
-import { defineStore } from 'pinia';
-import { mockInputTypes } from '~/mocks/inputTypes'; // Optional for local testing
-
+import { defineStore } from "pinia";
+import { mockInputTypes, mockInputType } from "~/mocks/inputTypes"; // Optional for local testing
 interface InputType {
   id?: number;
   name?: string;
   // Add more fields as needed
 }
 
-export const useInputTypesStore = defineStore('inputTypes', {
+export const useInputTypesStore = defineStore("inputTypes", {
   state: () => ({
     inputTypes: [] as InputType[],
-    currentInputType: {} as InputType,
+    currentInputType: mockInputType, //{} as InputType,
   }),
 
   actions: {
@@ -30,20 +29,26 @@ export const useInputTypesStore = defineStore('inputTypes', {
       try {
         this.setInputTypes(mockInputTypes); // TODO: remove in production
 
-        const { data, error } = await useFetch<InputType[]>('/input_types.json');
+        const { data, error } = await useFetch<InputType[]>(
+          "/input_types.json"
+        );
         if (error.value) throw error.value;
 
         if (data.value) {
           this.setInputTypes(data.value);
         }
       } catch (err) {
-        console.error('Failed to load input types:', err);
+        console.error("Failed to load input types:", err);
       }
     },
 
     async loadInputType(id: number) {
+      this.setCurrentInputType(mockInputType);
+
       try {
-        const { data, error } = await useFetch<InputType>(`/input_types/${id}.json`);
+        const { data, error } = await useFetch<InputType>(
+          `/input_types/${id}.json`
+        );
         if (error.value) throw error.value;
 
         if (data.value) {
@@ -57,37 +62,37 @@ export const useInputTypesStore = defineStore('inputTypes', {
     async updateInputType(inputType: InputType) {
       try {
         const { error } = await useFetch(`/input_types/${inputType.id}`, {
-          method: 'PUT',
+          method: "PUT",
           body: inputType,
         });
         if (error.value) throw error.value;
       } catch (err) {
-        console.error('Failed to update input type:', err);
+        console.error("Failed to update input type:", err);
       }
     },
 
-    async postInputType(inputType: Omit<InputType, 'id'>) {
+    async postInputType(inputType: Omit<InputType, "id">) {
       try {
-        const { error } = await useFetch('/input_types', {
-          method: 'POST',
+        const { error } = await useFetch("/input_types", {
+          method: "POST",
           body: inputType,
         });
         if (error.value) throw error.value;
       } catch (err) {
-        console.error('Failed to create input type:', err);
+        console.error("Failed to create input type:", err);
       }
     },
 
     async deleteInputType(inputType: InputType) {
       try {
         const { error } = await useFetch(`/input_types/${inputType.id}`, {
-          method: 'DELETE',
+          method: "DELETE",
         });
         if (error.value) throw error.value;
 
         this.resetInputType();
       } catch (err) {
-        console.error('Failed to delete input type:', err);
+        console.error("Failed to delete input type:", err);
       }
     },
   },
